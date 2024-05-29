@@ -48,7 +48,7 @@ jobs:
           cache-from: |
             type=registry,ref=ghcr.io/${{ github.repository }}/zad2:cache
           cache-to: |
-            type=registry,ref=ghcr.io/${{ github.repository }}/zazd2:cache
+            type=registry,ref=ghcr.io/${{ github.repository }}/zad2:cache
           tags: ${{ steps.meta.outputs.tags }}
 
       - name: Docker Scout CVE Scan
