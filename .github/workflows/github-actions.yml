@@ -19,12 +19,11 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ myGithubRepository }}/zad2
+          images: ghcr.io/${{ github.repository }}/zad2
           flavor: latest=false
           tags: |
             type=sha,priority=100,prefix=sha-,format=short
             type=semver,priority=200,pattern={{version}}
-
       - name: QEMU set-up
         uses: docker/setup-qemu-action@v3
 
@@ -36,9 +35,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.
-
-            }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker image
         uses: docker/build-push-action@v5
@@ -48,16 +45,16 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: false
           cache-from: |
-            type=registry,ref=ghcr.io/${{ myGithubRepository }}/zad2:cache
+            type=registry,ref=ghcr.io/${{ github.repository }}/zad2:cache
           cache-to: |
-            type=registry,ref=ghcr.io/${{ myGithubRepository }}/zad2:cache
+            type=registry,ref=ghcr.io/${{ github.repository }}/zad2:cache
           tags: ${{ steps.meta.outputs.tags }}
 
       - name: Docker Scout CVE Scan
         id: scan
         uses: docker/scout-action@v1
         with:
-          image: ghcr.io/${{ myGithubRepository }}/zad2:latest
+          image: ghcr.io/${{ github.repository }}/zad2:latest
 
       - name: Check CVE Scan Results
         run: |
@@ -65,7 +62,6 @@ jobs:
             echo "Critical or High vulnerabilities found, failing the job."
             exit 1
           fi
-
       - name: Push Docker image to GitHub Container Registry
         if: success()
         uses: docker/build-push-action@v5
@@ -75,7 +71,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           cache-from: |
-            type=registry,ref=ghcr.io/${{ myGithubRepository }}/zad2:cache
+            type=registry,ref=ghcr.io/${{ github.repository }}/zad2
           cache-to: |
-            type=registry,ref=ghcr.io/${{ myGithubRepository }}/zad2:cache
+            type=registry,ref=ghcr.io/${{ github.repository }}/zad2
           tags: ${{ steps.meta.outputs.tags }}
