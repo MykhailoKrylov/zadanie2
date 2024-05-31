@@ -57,17 +57,12 @@ jobs:
             type=registry,ref=ghcr.io/${{ github.repository }}:cache
           tags: ${{ steps.meta.outputs.tags }}
 
-
       - name: Docker Scout CVE Scan
         id: scan
         uses: docker/scout-action@v1
         with:
           command: scan
-          image: ghcr.io/mykhailokrylov/zadanie2:latest
-          summary: true
-          format: json
-          github-token: secrets.ZAD2_TOKEN
-          write-comment: true
+          image: ghcr.io/${{ github.repository }}/zadanie2:latest
 
       - name: Check CVE Scan Results
         run: |
