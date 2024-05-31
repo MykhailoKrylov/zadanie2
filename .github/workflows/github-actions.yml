@@ -19,7 +19,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}/zad2
+          images: ghcr.io/${{ myGithubRepository }}/zad2
           flavor: latest=false
           tags: |
             type=sha,priority=100,prefix=sha-,format=short
@@ -36,7 +36,9 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.
+
+            }}
 
       - name: Build Docker image
         uses: docker/build-push-action@v5
@@ -46,16 +48,16 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: false
           cache-from: |
-            type=registry,ref=ghcr.io/${{ github.repository }}/zad2:cache
+            type=registry,ref=ghcr.io/${{ myGithubRepository }}/zad2:cache
           cache-to: |
-            type=registry,ref=ghcr.io/${{ github.repository }}/zad2:cache
+            type=registry,ref=ghcr.io/${{ myGithubRepository }}/zad2:cache
           tags: ${{ steps.meta.outputs.tags }}
 
       - name: Docker Scout CVE Scan
         id: scan
         uses: docker/scout-action@v1
         with:
-          image: ghcr.io/${{ github.repository }}/zad2:latest
+          image: ghcr.io/${{ myGithubRepository }}/zad2:latest
 
       - name: Check CVE Scan Results
         run: |
@@ -73,7 +75,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           cache-from: |
-            type=registry,ref=ghcr.io/${{ github.repository }}/zad2:cache
+            type=registry,ref=ghcr.io/${{ myGithubRepository }}/zad2:cache
           cache-to: |
-            type=registry,ref=ghcr.io/${{ github.repository }}/zad2:cache
+            type=registry,ref=ghcr.io/${{ myGithubRepository }}/zad2:cache
           tags: ${{ steps.meta.outputs.tags }}
