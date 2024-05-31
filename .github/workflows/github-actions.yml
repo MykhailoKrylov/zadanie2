@@ -61,7 +61,7 @@ jobs:
         id: scan
         uses: docker/scout-action@v1
         with:
-          command: cves
+          command: quickview
           image: ghcr.io/${{ github.repository }}/zadanie2:latest
           summary: true
           format: json
