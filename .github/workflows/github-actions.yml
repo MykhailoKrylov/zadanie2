@@ -63,6 +63,11 @@ jobs:
         with:
           command: scan
           image: ghcr.io/${{ github.repository }}/zadanie2:latest
+          summary: true
+          format: json
+          github-token: secrets.ZAD2_TOKEN
+          write-comment: true
+
 
       - name: Check CVE Scan Results
         run: |
