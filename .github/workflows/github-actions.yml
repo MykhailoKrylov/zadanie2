@@ -19,7 +19,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}
+          images: ghcr.io/${{ github.repository }}/zadanie2
           flavor: latest=false
           tags: |
             type=sha,priority=100,prefix=sha-,format=short
@@ -45,9 +45,9 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: false
           cache-from: |
-            type=registry,ref=ghcr.io/${{ github.repository }}
+            type=registry,ref=ghcr.io/${{ github.repository }}:cache
           cache-to: |
-            type=registry,ref=ghcr.io/${{ github.repository }}/
+            type=registry,ref=ghcr.io/${{ github.repository }}:cache
           tags: ${{ steps.meta.outputs.tags }}
 
       - name: Docker Scout CVE Scan
@@ -71,7 +71,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           cache-from: |
-            type=registry,ref=ghcr.io/${{ github.repository }}
+            type=registry,ref=ghcr.io/${{ github.repository }}/zadanie2
           cache-to: |
-            type=registry,ref=ghcr.io/${{ github.repository }}
+            type=registry,ref=ghcr.io/${{ github.repository }}/zadanie2
           tags: ${{ steps.meta.outputs.tags }}
