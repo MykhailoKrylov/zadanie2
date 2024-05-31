@@ -63,6 +63,10 @@ jobs:
         with:
           command: quickview
           image: ghcr.io/${{ github.repository }}/zadanie2:${{ steps.meta.outputs.tags }}
+          summary: true
+          format: json
+          github-token: ${{ secrets.ZAD2_TOKEN }}
+          write-comment: true
 
 
 
