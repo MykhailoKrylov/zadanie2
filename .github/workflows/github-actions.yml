@@ -45,7 +45,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Pull Docker image
-        run: docker pull ghcr.io/${{ github.repository }}/zadanie2:latest
+        run: docker pull ghcr.io/${{ github.repository }}:latest
 
       - name: Build Docker image
         uses: docker/build-push-action@v5
