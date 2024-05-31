@@ -61,7 +61,9 @@ jobs:
         id: scan
         uses: docker/scout-action@v1
         with:
+          command: scan
           image: ghcr.io/${{ github.repository }}:latest
+
 
       - name: Check CVE Scan Results
         run: |
