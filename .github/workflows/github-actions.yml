@@ -62,7 +62,7 @@ jobs:
         uses: docker/scout-action@v1
         with:
           command: cves
-          image: ghcr.io/${{ github.repository }}/zadanie2:latest
+          image: ghcr.io/${{ github.repository }}:latest
           summary: true
           format: json
           github-token: ${{ secrets.ZAD2_TOKEN }}
