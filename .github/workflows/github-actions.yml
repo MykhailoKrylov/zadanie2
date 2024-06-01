@@ -57,12 +57,21 @@ jobs:
             type=registry,ref=ghcr.io/${{ github.repository }}:cache
           tags: ${{ steps.meta.outputs.tags }}
 
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ghcr.io/${{ github.repository }}:latest
+
       - name: Docker Scout CVE Scan
         id: scan
         uses: docker/scout-action@v1
         with:
           command: cves
-          image: ghcr.io/${{ github.repository }}:latest
+          image: ghcr.io/${{ github.repository }}:cache
           summary: true
           format: json
           github-token: ${{ secrets.ZAD2_TOKEN }}
@@ -70,10 +79,13 @@ jobs:
 
       - name: Check CVE Scan Results
         run: |
-          if [[ "$(jq .critical < ${{ steps.scan.outputs.report }})" != "0" ]] || [[ "$(jq .high < ${{ steps.scan.outputs.report }})" != "0" ]]; then
-            echo "Critical or High vulnerabilities found, failing the job."
+          cve_scan_results=$(jq '.[] | select(.severity == "HIGH" or .severity == "CRITICAL")' <<< '${{ steps.scan.outputs.result }}')
+          if [ -n "$cve_scan_results" ]; then
+            echo "Critical or High severity CVEs found, stopping the workflow."
             exit 1
           fi
+        shell: bash
+
       - name: Push Docker image to GitHub Container Registry
         if: success()
         uses: docker/build-push-action@v5
