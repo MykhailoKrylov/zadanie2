@@ -14,7 +14,7 @@ Próbuję naprawić błąd, dodając zmienną z małymi literami
 
 Nie udało się naprawić błędu. Musiałem zmienić nazwę konta 
 
-W ten sposób sprawdziłem, czy obraz zawiera zagrożenia sklasyfikowane jako krytyczne lub wysokie:
+W ten sposób sprawdziłem, czy obraz zawiera zagrożenia sklasyfikowane jako krytyczne lub wysokie: 
 ```
 
       - name: Check CVE Scan Results
@@ -30,5 +30,5 @@ Ten etap uruchamia skrypt shell, który używa jq do filtrowania wyników skanow
 Jeśli takie luki zostaną znalezione, skrypt wypisuje komunikat i kończy działanie z niezerowym statusem, zatrzymując przepływ pracy.
 Jeśli nie zostaną znalezione żadne wysokie lub krytyczne luki, przepływ pracy jest kontynuowany, umożliwiając przesłanie obrazu Docker do GHCR.
 
-Udało się 
+Udało się <br/>
 ![image](https://github.com/mykhailokrylov/zadanie2/assets/134151663/66631a93-5d11-4f6c-b800-f199c4c002c2)
