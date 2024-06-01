@@ -57,21 +57,12 @@ jobs:
             type=registry,ref=ghcr.io/${{ github.repository }}:cache
           tags: ${{ steps.meta.outputs.tags }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: ghcr.io/${{ github.repository }}:latest
-
       - name: Docker Scout CVE Scan
         id: scan
         uses: docker/scout-action@v1
         with:
           command: cves
-          image: ghcr.io/${{ github.repository }}:cache
+          image: ghcr.io/${{ github.repository }}:latest
           summary: true
           format: json
           github-token: ${{ secrets.ZAD2_TOKEN }}
